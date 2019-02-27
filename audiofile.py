@@ -1,11 +1,25 @@
+'''
+@Mohit : devmohit-live
+This file generates transcript of audio file, and stores the transcript in Transcript.txt file
+'''
+
 import speech_recognition as sr
+PATH=() #Path of your audio file 
+#override \ with \\
 r=sr.Recognizer()
-PATH="" # enter your file path here
-FILE=sr.AudioFile(PATH) 
-with FILE as source:
-    audio = r.record(source)
-    try:
-        l = r.recognize_google(audio)                  # generate a list of possible transcriptions
-        print(l)
-    except LookupError:                                 # speech is unintelligible
-        print("Could not understand audio")
+f=open('Transcript.txt','w') #resultant file
+
+with sr.AudioFile(PATH) as source:
+    audio=r.record(source)
+
+try:
+    print('Success')
+    print('Result stored in the Transcript file')
+    f.write('audio file contains:\n\n'+r.recognize_google(audio))
+
+except sr.UnknownValueError:   #For Lookup Error
+    print('Google Speech Recognition could not understand your audio')
+
+except sr.RequestError: #Request Error
+    print("Couldn't get the results from google")
+    
